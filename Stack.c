@@ -89,4 +89,43 @@ Status Pop(SqDoubleStack *S, SElemtype *e, int stackNumber)  //删除S的栈顶�
 }
 
 
+typedef struct StackNode
+{
+    SElemType data;
+    struct StackNode *next;
+}StackNode, *LinkStackPtr;  //链式栈的节点结构
 
+typedef struct LinkStack
+{
+    LinkStackPtr top;
+    int count;
+}LinkStack;  //链式栈结构
+
+
+Status Push (LinkStack *S, SElemType e)  //插入元素e作为新的栈顶元素
+{
+    LinkStackPtr s = LinkStackPtr malloc(sizeof(StackNode));  //申请StackNode空间作为新的插入结点
+    s->data = e;
+    s->next = S->top;
+    S->top = s;
+    S->count++;
+    return OK;
+}
+
+
+Status Pop (LinkStack *S,SElemType *e)  //删除S的栈顶元素，用e返回其值
+{
+    LinkStackPtr p = NULL;
+    if (S->top == NULL)  //出栈操作首先需判断栈是否为空
+        return ERROR;
+    *e = S->top->data;
+    p = S->top;
+    S->top = S->top->next;
+    free(p);
+    S->count--;
+    return OK;
+}
+
+/*顺序栈与链栈的插入删除操作时间复杂度均为O(1),
+  如果栈的使用过程中元素变化不可预料时，最好使用链栈；
+  如果它的变化在可控范围内，使用顺序栈则更好。*/
