@@ -1,7 +1,7 @@
 typedef 0 ERROR;
 typedef 1 OK;
-typedef int SElemtype;
 typedef int Status;
+typedef int SElemtype;
 typedef struct
 {
     SElemType data[MAXSIZE];
@@ -104,7 +104,7 @@ typedef struct LinkStack
 
 Status Push (LinkStack *S, SElemType e)  //插入元素e作为新的栈顶元素
 {
-    LinkStackPtr s = LinkStackPtr malloc(sizeof(StackNode));  //申请StackNode空间作为新的插入结点
+    LinkStackPtr s = (LinkStackPtr)malloc(sizeof(StackNode));  //申请StackNode空间作为新的插入结点
     s->data = e;
     s->next = S->top;
     S->top = s;
