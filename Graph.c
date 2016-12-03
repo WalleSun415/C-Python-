@@ -21,12 +21,12 @@ void CreateMGraph(MGraph *G)  //邻接矩阵建立无向网图
     int i, j, k, w;
     printf("输入顶点数和边数：\n");
     scanf("%d, %d", &G->numVertexes, &G->numEdges);  //输入顶点数和边数
-    for(i = 0;i <G->numVertexes;i++)
+    for(i = 0; i < G->numVertexes; i++)
         scanf(&G->vexs[i]);
-    for(i = 0 ;i <G->numVertexes;i++)
-        for(j = 0;j <G->numVertexes;j++)
+    for(i = 0; i < G->numVertexes; i++)
+        for(j = 0; j < G->numVertexes; j++)
             G->arc[i][j]=INFINITY;  //邻接矩阵初始化
-    for(k = 0;k <G->numEdges;k++)  //读入邻接矩阵边数，建立邻接矩阵
+    for(k = 0; k < G->numEdges; k++)  //读入邻接矩阵边数，建立邻接矩阵
     {
         printf("输入边(vi,vj)上的下标i，下标j和权w：\n");
         scanf("%d, %d, %d", &i, &j, &w);  //输入边和对应的权值
@@ -65,13 +65,13 @@ void CreateALGraph(GraphAdjList *G)  //邻接表存储方式建立无向图
     EdgeNode *e;
     printf("请输入顶点数和边数：\n");
     scanf("%d, %d", &G->numVertexes, &G->numEdges);
-    for (i = 0;i <G->numVertexes;i++)  //读取顶点信息，建立顶点表
+    for (i = 0; i < G->numVertexes; i++)  //读取顶点信息，建立顶点表
     {
         printf("输入第%d个顶点存储数据data：\n");
         scanf(&G->adjList[i].data);  //输入顶点信息
         G->adjList[i].firstedge = NULL;  //将边表置为空表
     }
-    for (k = 0;k <numEdges;k++)  //读取顶点序号，建立边表
+    for (k = 0; k < numEdges; k++)  //读取顶点序号，建立边表
     {
         printf("输入边(vi,vj)上的顶点序号：\n");
         scanf("%d, %d", &i, &j);
@@ -86,5 +86,38 @@ void CreateALGraph(GraphAdjList *G)  //邻接表存储方式建立无向图
         e->adjvex = i;
         e->next = G->adjList[j].firstedge;
         G->adjList[j].firstedge = e;
+    }
+}
+
+
+/*************************************************邻接矩阵的DFS算法*********************************************/
+typedef int Boolean;
+Boolean visited[MAX];  //访问标志数组
+#define FALSE 0
+#define TRUE  1
+
+
+//邻接矩阵深度优先算法
+void DFS (MGraph G, int i)
+{
+    int j;
+    visit[i] ＝ TRUE;
+    printf("%c", G.vexs[i]);  //打印顶点，或其他对顶点的操作 
+    for (j = 0; j < G.numVertexes; j++)
+        if (G.arc[i][j] == 1 && !visited[j])  //对访问的邻接顶点递归调用
+            DFS(G, j);
+}
+
+
+//对邻接矩阵进行深度优先遍历操作
+void DFSTraverse (MGraph G)
+{
+    int i;
+    for (i = 0; i < numVertexes; i++)
+        visited[i] = FALSE;
+    for (i = 0; i < numVertexes; i++)
+    {
+        if (!visited[i])  //对未访问顶点调用DFS，若是连通图，只会执行一次
+            DFS(G, i);
     }
 }
