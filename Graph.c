@@ -1,11 +1,10 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 
 typedef char VertexType;  //顶点类型
 typedef int EdgeType;  //边上的权值类型
 #define MAXVEX 100  //最大顶点数
 #define INFINITY 65535  //65535代表不存在
-
 
 /*************************************图的邻接矩阵存储方式（Adjacency Matrix）**********************************/
 typedef struct  
@@ -71,7 +70,7 @@ void CreateALGraph(GraphAdjList *G)  //邻接表存储方式建立无向图
         scanf(&G->adjList[i].data);  //输入顶点信息
         G->adjList[i].firstedge = NULL;  //将边表置为空表
     }
-    for (k = 0; k < numEdges; k++)  //读取顶点序号，建立边表
+    for (k = 0; k < G->numEdges; k++)  //读取顶点序号，建立边表
     {
         printf("输入边(vi,vj)上的顶点序号：\n");
         scanf("%d, %d", &i, &j);
@@ -92,7 +91,7 @@ void CreateALGraph(GraphAdjList *G)  //邻接表存储方式建立无向图
 
 /*************************************************邻接矩阵的DFS算法*********************************************/
 typedef int Boolean;
-Boolean visited[MAX];  //访问标志数组
+Boolean visited[MAXVEX];  //访问标志数组
 #define FALSE 0
 #define TRUE  1
 
@@ -101,7 +100,7 @@ Boolean visited[MAX];  //访问标志数组
 void DFS (MGraph G, int i)
 {
     int j;
-    visit[i] ＝ TRUE;  //全局变量数组对应顶点数组，对访问过的顶点置1
+    visited[i] = TRUE;  //全局变量数组对应顶点数组，对访问过的顶点置1
     printf("%c", G.vexs[i]);  //打印顶点，或其他对顶点的操作 
     for (j = 0; j < G.numVertexes; j++)
         if (G.arc[i][j] == 1 && !visited[j])  //对访问的邻接顶点递归调用
@@ -125,7 +124,7 @@ void DFSTraverse (MGraph G)
 
 /**************************************************邻接表的DFS算法*************************************************/
 //邻接表的深度优先算法
-void DFS(GraphAdjList GL, int i)
+void AdjList_DFS(GraphAdjList GL, int i)
 {
     EdgeNode *p;
     visited[i] = TRUE;
@@ -134,14 +133,14 @@ void DFS(GraphAdjList GL, int i)
     while(p)
     {
         if (!visited[p->adjvex])
-            DFS(GL, p->adjvex);  //对未访问的邻接顶点递归调用DFS
+            AdjList_DFS(GL, p->adjvex);  //对未访问的邻接顶点递归调用DFS
         p = p->next;
     }
 }
 
 
 //邻接表的深度遍历操作
-void DFSTraverse (GraphAdjList GL)
+void AdjList_DFSTraverse (GraphAdjList GL)
 {
     int i;
     for (i = 0; i < GL.numVertexes; i++)
@@ -149,7 +148,7 @@ void DFSTraverse (GraphAdjList GL)
     for (i = 0; i < GL.numVertexes; i++)
     {
         if (!visited[i])  //对未访问过的顶点调用DFS，若是连通图，只会调用一次
-            DFS(GL, i);
+            AdjList_DFS(GL, i);
     }
 }
 
