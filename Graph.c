@@ -101,7 +101,7 @@ Boolean visited[MAX];  //访问标志数组
 void DFS (MGraph G, int i)
 {
     int j;
-    visit[i] ＝ TRUE;
+    visit[i] ＝ TRUE;  //全局变量数组对应顶点数组，对访问过的顶点置1
     printf("%c", G.vexs[i]);  //打印顶点，或其他对顶点的操作 
     for (j = 0; j < G.numVertexes; j++)
         if (G.arc[i][j] == 1 && !visited[j])  //对访问的邻接顶点递归调用
@@ -113,11 +113,44 @@ void DFS (MGraph G, int i)
 void DFSTraverse (MGraph G)
 {
     int i;
-    for (i = 0; i < numVertexes; i++)
+    for (i = 0; i < G.numVertexes; i++)
         visited[i] = FALSE;
-    for (i = 0; i < numVertexes; i++)
+    for (i = 0; i < G.numVertexes; i++)
     {
         if (!visited[i])  //对未访问顶点调用DFS，若是连通图，只会执行一次
             DFS(G, i);
     }
 }
+
+
+/**************************************************邻接表的DFS算法*************************************************/
+//邻接表的深度优先算法
+void DFS(GraphAdjList GL, int i)
+{
+    EdgeNode *p;
+    visited[i] = TRUE;
+    printf("%c", GL.adjList[i].data);  //打印结点，也可进行其他操作
+    p = GL.adjList[i].firstedge;
+    while(p)
+    {
+        if (!visited[p->adjvex])
+            DFS(GL, p->adjvex);  //对未访问的邻接顶点递归调用DFS
+        p = p->next;
+    }
+}
+
+
+//邻接表的深度遍历操作
+void DFSTraverse (GraphAdjList GL)
+{
+    int i;
+    for (i = 0; i < GL.numVertexes; i++)
+        visited[i] = FALSE;
+    for (i = 0; i < GL.numVertexes; i++)
+    {
+        if (!visited[i])  //对未访问过的顶点调用DFS，若是连通图，只会调用一次
+            DFS(GL, i);
+    }
+}
+
+
