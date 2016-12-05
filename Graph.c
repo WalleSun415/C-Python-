@@ -185,3 +185,39 @@ void AdjMatrix_BFSTraverse (MGraph G)
         
     }
 }
+
+
+/***********************************************邻接表的BFS算法********************************************************/
+void AdjList_BFSTraverse (GraphAdjList GL)
+{
+    int i, j;
+    EdgeNode *p;
+    Queue q;
+    for (i = 0; i < GL.numVertexes; i++)
+        visited[i] = FALSE;
+    InitQueue(&q);
+    for (i = 0; i < GL.numVertexes; i++)  //若为连通图，则只调用一次
+    {
+        if (!visited[i])
+        {
+            visited[i] = TRUE;
+            printf("%c", GL.adjList[i].data);
+            EnQueue(&q, i);
+            while (!QueueEmpty(q))
+            {
+                DeQueue(&q, &i);
+                p = GL.adjList[i].firstedge;  //调用当前顶点边表的头指针
+                while (p)
+                {
+                    if (!visited[p->adjvex])  //若此顶点未被访问
+                    {
+                        visited[p->adjvex] = TRUE;
+                        printf("%c", GL.adjList[p->adjvex].data);  //打印顶点，或其他操作
+                        EnQueue(&q, p->adjvex);  
+                    }
+                    p = p->next;  //将当前出队顶点的所有邻接点依次循环遍历并入队
+                }
+            }  
+        }
+    }
+}
