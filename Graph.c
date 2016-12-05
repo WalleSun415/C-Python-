@@ -97,19 +97,19 @@ Boolean visited[MAXVEX];  //访问标志数组
 
 
 //邻接矩阵深度优先算法
-void DFS (MGraph G, int i)
+void AdjMatrix_DFS (MGraph G, int i)
 {
     int j;
     visited[i] = TRUE;  //全局变量数组对应顶点数组，对访问过的顶点置1
     printf("%c", G.vexs[i]);  //打印顶点，或其他对顶点的操作 
     for (j = 0; j < G.numVertexes; j++)
         if (G.arc[i][j] == 1 && !visited[j])  //对访问的邻接顶点递归调用
-            DFS(G, j);
+            AdjMatrix_DFS(G, j);
 }
 
 
 //对邻接矩阵进行深度优先遍历操作
-void DFSTraverse (MGraph G)
+void AdjMatrix_DFSTraverse (MGraph G)
 {
     int i;
     for (i = 0; i < G.numVertexes; i++)
@@ -117,7 +117,7 @@ void DFSTraverse (MGraph G)
     for (i = 0; i < G.numVertexes; i++)
     {
         if (!visited[i])  //对未访问顶点调用DFS，若是连通图，只会执行一次
-            DFS(G, i);
+            AdjMatrix_DFS(G, i);
     }
 }
 
@@ -153,3 +153,35 @@ void AdjList_DFSTraverse (GraphAdjList GL)
 }
 
 
+/*************************************************邻接矩阵的BFS算法***************************************************/
+void AdjMatrix_BFSTraverse (MGraph G)
+{
+    int i, j;
+    Queue q;
+    for (i = 0; i < G.numVertexes; i++)
+        visited[i] = FALSE;  //循环初始化访问标志数组
+    InitQueue(&q);  //初始化辅助队
+    for (i = 0; i < G.numVertexes; i++)  //若为连通图，由于队列总不为空，则循环仅执行一次
+    {
+        if (!visited[i])
+        {
+            visited[i] = TRUE;
+            printf("%c", G.vexs[i]);  //打印顶点，也可以进行其他操作
+            EnQueue(&q, i);  //将首个顶点入队列，启动循环
+            while(!QueueEmpty(q))
+            {
+                DeQueue(&q, &i);  //将顶点出队，判断该顶点所连接顶点
+                for (j = 0; j < G.numVertexes; j++)
+                {
+                    if (G.arc[i][j] == 1 && !visited[j])  //判断与当前顶点连接的顶点是否被访问过
+                    {
+                        visited[j] = TRUE;
+                        printf("%c", G.vexs[j]);  //打印顶点
+                        EnQueue(&q, j);  //将未访问的顶点入队列
+                    }
+                }
+            }
+        }
+        
+    }
+}
