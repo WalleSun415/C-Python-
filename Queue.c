@@ -1,5 +1,6 @@
-typedef 0 ERROR;
-typedef 1 OK;
+#include <stdlib.h>
+#define OK 1
+#define ERROR 0
 typedef int Status;
 typedef int QElemaType;
 

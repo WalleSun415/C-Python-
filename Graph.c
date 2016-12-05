@@ -190,7 +190,7 @@ void AdjMatrix_BFSTraverse (MGraph G)
 /***********************************************邻接表的BFS算法********************************************************/
 void AdjList_BFSTraverse (GraphAdjList GL)
 {
-    int i, j;
+    int i;
     EdgeNode *p;
     Queue q;
     for (i = 0; i < GL.numVertexes; i++)

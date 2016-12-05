@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #define OK 1
 #define ERROR 0
 #define TRUE 1
@@ -28,7 +29,7 @@ Status ListInsert (LinkList *L, int i, ElemType e)
         j++;
     }
     if(!p || j>i)
-        return error;
+        return ERROR;
 
     s = (LinkList)malloc(sizeof(Node));
 

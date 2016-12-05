@@ -1,6 +1,7 @@
+#include <stdio.h>
 typedef int TElemType;
-typedef 0 ERROOR;
-typedef 1 OK;
+#define ERROR 0;
+#define OK 1;
 
 
 //二叉树的二叉链表结点结构
@@ -15,7 +16,7 @@ void PreOrderTraverse (BiTree T)  //二叉树前序遍历递归算法
 {
     if (T==NULL)
         return;
-    printf("%c", T->data);  //打印结点数据，或其他对结点的操作，一般二叉树结点均用于保存数据
+    printf("%d", T->data);  //打印结点数据，或其他对结点的操作，一般二叉树结点均用于保存数据
     PreOrderTraverse(T->lchild);
     PreOrderTraverse(T->rchild);
 }
@@ -26,7 +27,7 @@ void InOrderTraverse (BiTree T)  //二叉树中序遍历递归算法
     if (T==NULL)
         return;
     InOrderTraverse(T->lchild);
-    printf("%c", T->data);
+    printf("%d", T->data);
     InOrderTraverse(T->rchild);
 }
 
@@ -37,5 +38,5 @@ void PostOrderTraverse (BiTree T)  //二叉树后序遍历递归算法
         return;
     PostOrderTraverse(T->lchild);
     PostOrderTraverse(T->rchild);
-    printf("%c", T->data);
+    printf("%d", T->data);
 }

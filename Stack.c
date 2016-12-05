@@ -1,7 +1,9 @@
-typedef 0 ERROR;
-typedef 1 OK;
+#include <stdlib.h>
+#define OK 1
+#define ERROR 0
+#define MAXSIZE 20
 typedef int Status;
-typedef int SElemtype;
+typedef int SElemType;
 typedef struct
 {
     SElemType data[MAXSIZE];
@@ -13,7 +15,7 @@ Status Push(SqStack *S, SElemType e)  //传值调用，添加元素e，只是e�
 {
     if (S->top == MAXSIZE-1)  //判断栈满
     {
-        retuen ERROR
+        return ERROR;
     }
     ++S->top;
     S->data[S->top] = e;
@@ -21,7 +23,7 @@ Status Push(SqStack *S, SElemType e)  //传值调用，添加元素e，只是e�
 }
 
 
-Status Pop(SqStack *S, SElemtype *e)  //传址调用，修改*e的值
+Status Pop(SqStack *S, SElemType *e)  //传址调用，修改*e的值
 {
     if (S->top == -1)
     {
@@ -50,14 +52,12 @@ Status Push (SqDoubleStack *S, SElemType e, int stackNumber)  //插入e为新的
         return ERROR;
     if (stackNumber == 1)
     {
-        ++S->top1;
-        S->data[top1] = e;
+        S->data[++S->top1] = e;
         return OK;
     }
     else if (stackNumber == 2)
     {
-        --S->top2;
-        S->data[top2] = e;
+        S->data[--S->top2] = e;
         return OK;
     }
     else
@@ -65,22 +65,20 @@ Status Push (SqDoubleStack *S, SElemType e, int stackNumber)  //插入e为新的
 }
 
 
-Status Pop(SqDoubleStack *S, SElemtype *e, int stackNumber)  //删除S的栈顶元素，用e返回其值
+Status Pop(SqDoubleStack *S, SElemType *e, int stackNumber)  //删除S的栈顶元素，用e返回其值
 {
     if (stackNumber == 1)
     {
         if(S->top1 == -1)  //判断栈1是否是空栈
             return ERROR;
-        *e = S->data[top1];  //将栈1的栈顶元素出栈
-        --top1;
+        *e = S->data[S->top1--];  //将栈1的栈顶元素出栈
         return OK;
     }
     else if (stackNumber == 2)
     {
         if (S->top2 == MAXSIZE)  //判断栈2是否是空栈
             return ERROR;
-        *e = S->data[top2];  //将栈2的栈顶元素出栈
-        ++top2;
+        *e = S->data[S->top2++];  //将栈2的栈顶元素出栈
         return OK;
     }
     else 
