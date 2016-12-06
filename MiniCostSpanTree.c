@@ -1,7 +1,7 @@
-#include "Graph.c"
 #include <stdio.h>
 
-#define MAXVEX 100
+#define MAXVEX 9
+#define MAXEDGE 15
 #define INFINITY 65535
 /*****************************Prim算法生成最小生成树************************/
 void MiniSpanTree_Prim (MGraph G)
@@ -42,6 +42,43 @@ void MiniSpanTree_Prim (MGraph G)
                 lowcost[j] = G.arc[k][j];
                 adjvex[j] = k;  //将下标为k的顶点存入adjvex
             }
+        }
+    }
+}
+
+
+/******************************************Kruskal算法生成最小生成树***************************************/
+typedef struct
+{
+    int begin;
+    int end;
+    int weight;
+}Edge;  //边集数组Edge结构体
+
+
+int Find (int *parent, int f)  //用于查找连线顶点的尾部下标
+{
+    while (parent[f] > 0)
+        f = parent[f];
+    return f;
+}
+
+
+void MinSpanTree_Kruskal (MGraph G)
+{
+    int i, n, m;
+    Edge edges[MAXEDGE];  //定义边集数组
+    int parent[MAXVEX];  //该数组用于判断边与边是否形成回路
+    for (i = 0; i < G.numVertexes; i++)
+        parent[i] = 0;
+    for (i = 0; i < G.numEdges; i++)
+    {
+        n = Find(parent, edges[i].begin);
+        m = Find(parent, edges[i].end);
+        if (n != m)     //如果n与m不等说明此边没有与现有生成树形成回路
+        {
+            parent[n] = m;  //将此边的尾结点加入下标为起点的parent中，表示此结点已经在生成树中
+            printf("(%d,%d) %d", edges[i].begin, edges[i].end, edges[i].weight);
         }
     }
 }
