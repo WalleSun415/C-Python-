@@ -82,3 +82,7 @@ void MinSpanTree_Kruskal (MGraph G)
         }
     }
 }
+
+
+/*Kruskal算法主要针对边展开，在边少时效率非常高，所以对稀疏图有很大优势，同时多用邻接表存储;
+  相比于Kruskal算法，Prim算法多适用于稠密图，多用邻接矩阵存储。*/
