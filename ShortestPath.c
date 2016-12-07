@@ -46,3 +46,39 @@ void ShortestPath_Dijkstra (MGraph G, int v0, Patharc *P, ShortPathTable *D)
         }
     }
 }
+
+
+/**********************************Floyd算法，求网G的各顶点v到其余顶点w的最短路径P[v][w]及带权长度D[v][w]*****************************/
+typedef int Pathmatrix[MAXVEX][MAXVEX];
+typedef int ShortPathTable[MAXVEX][MAXVEX];
+
+
+void ShortestPath_Floyd(MGraph G, Pathmatrix *P, ShortPathTable *D)
+{
+    int v, w, k;
+    for (v = 0; v < G.numVertexes; v++)
+    {
+        for (w = 0; w < G.numVertexes; w++)
+        {
+            (*D)[v][w] = G.arc[v][w];  //D[v][w]值初始化为邻接矩阵对应点间的权值
+            (*P)[v][w] = w;
+        }
+    }
+
+    //k代表中转顶点的下标，v代表起始顶点的下标，w代表结束顶点的下标
+    for (k = 0; k < G.numVertexes; k++)
+    {
+        for (v = 0; v < G.numVertexes; v++)
+        {
+            for (w = 0; w < G.numVertexes; w++)
+            {
+                if ((*D)[v][k]+(*D)[k][w] < G.arc[v][w])
+                {
+                    //D与P矩阵均以上一集为基础，例如D-1是D0的基础，D0是D1的基础，D1是D2的基础...
+                    G.arc[v][w] = (*D)[v][k] + (*D)[k][w];
+                    (*P)[v][w] = (*P)[v][k];  //路径设置经过下标为k的顶点
+                }
+            }
+        }
+    }
+}
