@@ -3,6 +3,16 @@
 #define MAXVEX 9
 #define MAXEDGE 15
 #define INFINITY 65535
+typedef char VertexType;
+typedef int EdgeType;
+typedef struct
+{
+    VertexType vexs[MAXVEX];
+    EdgeType arc[MAXVEX][MAXVEX];
+    int numVertexes, numEdges;
+}MGraph;
+
+
 /*****************************Prim算法生成最小生成树************************/
 void MiniSpanTree_Prim (MGraph G)
 {
