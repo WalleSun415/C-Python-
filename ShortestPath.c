@@ -1,3 +1,4 @@
+#include <stdio.h>
 #define MAXVEX 9  
 #define INFINITY 65535
 typedef int Patharc[MAXVEX];  //存储输入顶点最短路径下标的数组
@@ -81,4 +82,26 @@ void ShortestPath_Floyd(MGraph G, Pathmatrix *P, ShortPathTable *D)
             }
         }
     }
+
+    //最短路径的显示代码，打印各个顶点到其余各点的最短路径
+    for (v = 0; v < G.numVertexes; v++)
+    {
+        for (w = v+1; w < G.numVertexes; w++)  //遍历矩阵D和P的上三角行列式
+        {
+            printf("v%d-v%d weight: %d", v, w, (*D)[v][w]);
+            k = (*P)[v][w];  //获取第一个路径顶点下标
+
+            printf("Path: %d", v);  //打印路径起点
+            while (k != w)  //如果路径顶点下标不是终点
+            {
+                printf(" -> %d", k);
+                k = (*P)[k][w];  //获取下一个路径顶点下标
+            }
+            printf(" -> %d\n", w);  //打印路径终点
+        }
+        printf("\n");
+    }
 }
+
+/*如果面临需要求所有顶点至所有顶点的最短路径问题，Floyd算法比Dijkstra算法更适用。
+  两个算法对有向图均有效，差异在于邻接矩阵是或否对称而已*/
