@@ -3,6 +3,14 @@
 #define INFINITY 65535
 typedef int Patharc[MAXVEX];  //存储输入顶点最短路径下标的数组
 typedef int ShortPathTable[MAXVEX];  //存储输入顶点到各点最短路径的权值和
+typedef char VertexType;
+typedef int EdgeType;
+typedef struct
+{
+    VertexType vexs[MAXVEX];
+    EdgeType arc[MAXVEX][MAXVEX];
+    int numVertexes, numEdges;
+}MGraph;
 
 
 /*求有向网G的顶点v0到其余各点最短路径的Dijkstra算法，P[v]的值为前驱顶点的下标，D[v]的值表示v0到v的最短路径长度和*/
@@ -51,10 +59,10 @@ void ShortestPath_Dijkstra (MGraph G, int v0, Patharc *P, ShortPathTable *D)
 
 /**********************************Floyd算法，求网G的各顶点v到其余顶点w的最短路径P[v][w]及带权长度D[v][w]*****************************/
 typedef int Pathmatrix[MAXVEX][MAXVEX];
-typedef int ShortPathTable[MAXVEX][MAXVEX];
+typedef int ShortPathmatrix[MAXVEX][MAXVEX];
 
 
-void ShortestPath_Floyd(MGraph G, Pathmatrix *P, ShortPathTable *D)
+void ShortestPath_Floyd(MGraph G, Pathmatrix *P, ShortPathmatrix *D)
 {
     int v, w, k;
     for (v = 0; v < G.numVertexes; v++)
