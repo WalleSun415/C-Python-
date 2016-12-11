@@ -1,3 +1,6 @@
+#include <stdlib.h>
+
+
 /*二叉查找树（Binary Sort Tree，BST）即可以使得插入删除效率不错，又可以比较高效的实现查找*/
 #define FALSE 0
 #define TRUE 1
@@ -27,8 +30,27 @@ Status SearchBST (BiTree T, int key, BiTree f, BiTree *p)
     else if (T->data > key)
         return SearchBST(T->rchild, key, T, p);
     else if (T->data < key)
-        return SearchBST(T->lchild, key, T, p)
+        return SearchBST(T->lchild, key, T, p);
 }
 
 
-
+//二叉查找树T中不存在关键字key时，插入key并返回TRUE，否则返回FALSE
+Status InsertBST (BiTree *T, int key)
+{
+    BiTree s, p;
+   if (!SearchBST(*T, key, NULL, &p))  //查找不成功
+    {
+        s = (BiTree)malloc(sizeof(BiTNode));
+        s->data = key;
+        s->lchild = s->rchild = NULL;
+        if (!p)  //二叉查找树T为空树
+            *T = s;
+        else if (key < p->data)
+            p->lchild = s;
+        else
+            p->rchild = s;
+        return TRUE;
+    }
+    else
+        return FALSE;
+}
